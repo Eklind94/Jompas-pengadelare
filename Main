@@ -1,0 +1,97 @@
+import java.util.Scanner;  // Import the Scanner class
+
+/*Project for a cost share calculator. First edition.
+Upcoming features & fixes :
+Method isValidInt is currently a bit buggy.
+1. Error message when input is not valid
+2. assigning costs to involved  party members.
+3. Move code to different classes or methods for readability
+
+*/
+
+public class Main {
+
+    public static void main(String[] args){
+        Scanner input = new Scanner(System.in);  // Create a Scanner object
+        //declaring variables and arrays.
+        System.out.println("How many are you?");
+        int numPeople = isValidInt(input.next()); //Stores number if a valid number is submitted.
+
+        input.nextLine(); //Fix scanner bug w/ newline
+        String[] allNames = new String[numPeople];//Array with all names.
+        int[] allCosts = new int[numPeople]; //declaring array to store costs.
+
+        //Adding names in Array
+        for (int i = 0; i < numPeople; i++) {
+            System.out.printf("What is the name of person %d?%n", i+1);
+            String name = input.nextLine();
+            allNames[i] = name;
+        }
+
+        //sentinel controlled loop for
+        // 1. registering costs and
+        // 2. who paid for the cost
+        System.out.println("Enter cost: (Enter -1 if you have entered all costs)");
+        while (!input.hasNextInt()) {//Checks for a valid number
+            input.next();
+            System.out.print("Please enter a valid (whole) number: ");
+        }
+
+        int kostnad = input.nextInt();
+        while ( kostnad != -1) {
+            System.out.println("Enter the number of the person who paid");
+            for (int j = 0; j < numPeople; j++) {
+                System.out.printf("%d\t%s%n", j + 1, allNames[j]);//Show all names next to number
+            }
+            int whoPaid = input.nextInt() -1; //user registers who paid
+            allCosts[whoPaid] += kostnad; //add cost to index for person who paid.
+
+            System.out.println("Enter cost: (Enter -1 if you have entered all costs)");
+            kostnad = input.nextInt();
+        } //end while loop
+
+        //printing names and what they paid for
+        System.out.println("You have paid the following:");
+        for (int k = 0; k < numPeople; k++) {
+            System.out.printf("%-15s\t%d%n", allNames[k], allCosts[k]);
+        }
+
+        //Calculating total and 'fair share'= average
+        int total = findSum(allCosts);
+        int average = total / numPeople;
+        int[] difference = new int[numPeople];//Array for storing difference between fair share to what actually was paid
+
+        //calculating what everyone should pay or be paid
+        for (int n = 0; n < numPeople; n++) {
+            difference[n] = average - allCosts[n]; //compares fair share to what actually was paid
+
+            if (difference[n] > 0) {
+                System.out.printf("%s should pay a total of %d to be even%n", allNames[n], difference[n]);
+            } else if (difference[n] < 0) {
+                System.out.printf("%s should be payed a total of %d to be even%n", allNames[n], -1 *difference[n]);
+            }else {
+                System.out.printf("%s is already even%n", allNames[n]);
+            }
+        }//end for loop
+
+    }//end main
+    public static int findSum(int[] array) {
+        int sum = 0;
+        for (int value : array) {
+            sum += value;
+        }
+        return sum;
+        
+    }//end findSum
+    public static int isValidInt(String i) {
+        Scanner input = new Scanner(System.in);  // Create a Scanner object'
+            while (!input.hasNextInt()) //Checks for a valid number
+            {
+                System.err.print("Please enter a valid number: ");
+                input.next();
+            }
+            int t = Integer.parseInt(i);
+            return t;
+
+    }//end isValidInt
+}//end class
