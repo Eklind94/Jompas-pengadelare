@@ -2,7 +2,6 @@ import java.util.Scanner;  // Import the Scanner class
 
 /*Project for a cost share calculator. First edition.
 Upcoming features & fixes :
-Method isValidInt is currently a bit buggy.
 1. assigning costs to involved  party members.
 2. Move code to different classes or methods for readability
 
@@ -79,7 +78,7 @@ public class Main {
         
     }//end findSum
     public static int validInteger() {
-        //Method converts input to an integer, if input cannot be converted, the user is asked to input again.
+        //Method checks/converts input to an integer, if input cannot be converted, the user is asked to input again.
             Scanner scanner = new Scanner(System.in);
             boolean validInput = false;
 
