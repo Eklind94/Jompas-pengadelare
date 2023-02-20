@@ -2,9 +2,9 @@ import java.util.Scanner;  // Import the Scanner class
 
 /*Project for a cost share calculator. First edition.
 Upcoming features & fixes :
+Method isValidInt is currently a bit buggy.
 1. assigning costs to involved  party members.
 2. Move code to different classes or methods for readability
-3. input all names at the same time
 
 */
 
@@ -22,25 +22,25 @@ public class Main {
 
         //Adding names in Array
         for (int i = 0; i < numPeople; i++) {
-            System.out.printf("What is the name of person %d?%n", i+1);
+            System.out.printf("Name %d:", i+1);
             String name = input.nextLine();
-            allNames[i] = name;
+            allNames[i] = capitalizeFirstChar(name);
         }
 
         //sentinel controlled loop for
         // 1. registering costs and
         // 2. who paid for the cost
-        System.out.println("Enter cost: (Enter -1 if you have entered all costs)");
+        System.out.println("Enter cost: (Enter -1 to quit)");
         int kostnad = validInteger();
         while ( kostnad != -1) {
             System.out.println("Enter the number of the person who paid");
             for (int j = 0; j < numPeople; j++) {
                 System.out.printf("%d\t%s%n", j + 1, allNames[j]);//Show all names next to number
             }
-            int whoPaid = input.nextInt() -1; //user registers who paid
+            int whoPaid = validInteger() -1; //user registers who paid
             allCosts[whoPaid] += kostnad; //add cost to index for person who paid.
 
-            System.out.println("Enter cost: (Enter -1 if you have entered all costs)");
+            System.out.println("Enter cost: (Enter -1 to quit)");
             kostnad = validInteger();
         } //end while loop
 
@@ -95,4 +95,12 @@ public class Main {
             }
         return 0;
         }//end InputToInteger
+
+    public static String capitalizeFirstChar(String str) {
+        if (str == null || str.isEmpty()) {
+            return str;
+        } else {
+            return str.substring(0, 1).toUpperCase() + str.substring(1);
+        }
+    }//end capitalizeFirstChar
 }//end class
