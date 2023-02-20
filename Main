@@ -3,9 +3,8 @@ import java.util.Scanner;  // Import the Scanner class
 /*Project for a cost share calculator. First edition.
 Upcoming features & fixes :
 Method isValidInt is currently a bit buggy.
-1. Error message when input is not valid
-2. assigning costs to involved  party members.
-3. Move code to different classes or methods for readability
+1. assigning costs to involved  party members.
+2. Move code to different classes or methods for readability
 
 */
 
@@ -15,9 +14,9 @@ public class Main {
         Scanner input = new Scanner(System.in);  // Create a Scanner object
         //declaring variables and arrays.
         System.out.println("How many are you?");
-        int numPeople = isValidInt(input.next()); //Stores number if a valid number is submitted.
+        int numPeople = validInteger(); //Stores number if a valid number is submitted.
 
-        input.nextLine(); //Fix scanner bug w/ newline
+
         String[] allNames = new String[numPeople];//Array with all names.
         int[] allCosts = new int[numPeople]; //declaring array to store costs.
 
@@ -32,12 +31,7 @@ public class Main {
         // 1. registering costs and
         // 2. who paid for the cost
         System.out.println("Enter cost: (Enter -1 if you have entered all costs)");
-        while (!input.hasNextInt()) {//Checks for a valid number
-            input.next();
-            System.out.print("Please enter a valid (whole) number: ");
-        }
-
-        int kostnad = input.nextInt();
+        int kostnad = validInteger();
         while ( kostnad != -1) {
             System.out.println("Enter the number of the person who paid");
             for (int j = 0; j < numPeople; j++) {
@@ -47,7 +41,7 @@ public class Main {
             allCosts[whoPaid] += kostnad; //add cost to index for person who paid.
 
             System.out.println("Enter cost: (Enter -1 if you have entered all costs)");
-            kostnad = input.nextInt();
+            kostnad = validInteger();
         } //end while loop
 
         //printing names and what they paid for
@@ -68,7 +62,7 @@ public class Main {
             if (difference[n] > 0) {
                 System.out.printf("%s should pay a total of %d to be even%n", allNames[n], difference[n]);
             } else if (difference[n] < 0) {
-                System.out.printf("%s should be payed a total of %d to be even%n", allNames[n], -1 *difference[n]);
+                System.out.printf("%s should receive a total of %d to be even%n", allNames[n], -1 *difference[n]);
             }else {
                 System.out.printf("%s is already even%n", allNames[n]);
             }
@@ -76,6 +70,7 @@ public class Main {
 
     }//end main
     public static int findSum(int[] array) {
+        //Adds the total of all values in an array and returns the total
         int sum = 0;
         for (int value : array) {
             sum += value;
@@ -83,15 +78,21 @@ public class Main {
         return sum;
         
     }//end findSum
-    public static int isValidInt(String i) {
-        Scanner input = new Scanner(System.in);  // Create a Scanner object'
-            while (!input.hasNextInt()) //Checks for a valid number
-            {
-                System.err.print("Please enter a valid number: ");
-                input.next();
-            }
-            int t = Integer.parseInt(i);
-            return t;
+    public static int validInteger() {
+        //Method converts input to an integer, if input cannot be converted, the user is asked to input again.
+            Scanner scanner = new Scanner(System.in);
+            boolean validInput = false;
 
-    }//end isValidInt
+            while (validInput  != true){
+                String input = scanner.nextLine();
+                try {
+                    int number = Integer.parseInt(input);
+                    validInput = true;
+                    return number;
+                } catch (NumberFormatException e) {
+                    System.out.println("Invalid input. Please enter a valid whole number:");
+                }
+            }
+        return 0;
+        }//end InputToInteger
 }//end class
