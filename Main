@@ -2,9 +2,9 @@ import java.util.Scanner;  // Import the Scanner class
 
 /*Project for a cost share calculator. First edition.
 Upcoming features & fixes :
-Method isValidInt is currently a bit buggy.
 1. assigning costs to involved  party members.
 2. Move code to different classes or methods for readability
+3. input all names at the same time
 
 */
 
